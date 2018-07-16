@@ -4,9 +4,6 @@ import pandas as pd
 import string
 import sys
  
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import train_test_split
-from sklearn.datasets import load_breast_cancer
 
 # Converts the Time format into seconds with integer values
 def convert_seconds(input_time): 
@@ -25,35 +22,28 @@ def convert_seconds(input_time):
     num1 = int(temp) * 60  # Converts time in minutes to seconds
     num2 = int(temp2)      # time in seconds
     time = num1 + num2
-    return str(time)
+
+    return time
+    
 
 def main():
     x = sys.argv[1]
     df = pd.read_csv(x)
     df3 = df.iloc[np.where(df.method.values=='Submission')]
     df3 = df3.copy()
+    sum = 0
       # mean = df3["time"].mean()
-    print df3["time"][0]
+    
     for i in range(0,df3["time"].count()):
         a = df3.iloc[i]["time"]
         temp = convert_seconds(a)
-        df3.set_value(i,"time",temp)
-  
-    print df3["time"][0]
-    #cancer = load_breast_cancer()
-    #print cancer
-  #  X_train, X_test, y_train, y_test = train_test_split(cancer.data, cancer.target, random_state=0)
-
-   # forest = RandomForestClassifier(n_estimators=100, random_state=0)
-    #forest.fit(X_train,y_train)
-
-    #print ("Accuracy on the training subset: {:.3f}")
-   # print (forest.score(X_train, y_train))
-   # print ("Accuracy on the test subset: {:.3f}")
-   # print (forest.score(X_test, y_test))
-
-
-		
+        sum = temp + sum
+    mean = sum / df3["time"].count()
+    print "Mean Submission Time", mean
+  #  print df3.time[1200]
+   # df4.time = df3.time.astype(np.int64)
+  #  mean = df4["time"].mean()
+   # print df4
 if __name__ == "__main__":
 	main()
 
